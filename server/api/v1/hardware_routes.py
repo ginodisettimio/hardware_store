@@ -1,4 +1,6 @@
-from fastapi import APIRouter
+from typing import Annotated
+
+from fastapi import APIRouter, Path
 
 router = APIRouter(prefix='/hardware')
 
@@ -20,11 +22,11 @@ async def get_all() -> list:
     status_code=200,
     responses={
         200: {'description': 'Producto encontrado'},
-        422: {'description': 'Id tiene que ser un entero'},
+        422: {'description': 'Id no es un entero valido'},
     },
     description='Retorna producto con sus respectivos datos via id.'
 )
-async def get_by_id(id: int) -> dict:
+async def get_by_id(id: Annotated[int, Path(gt=0, le=1000)]) -> dict:
     return {'id': id}
 
 
@@ -44,12 +46,12 @@ async def create() -> dict:
     path='/{id}',
     status_code=200,
     responses={
-        200: {'description': 'Producto actualizado.'},
-        422: {'description': 'Id tiene que ser un entero'},
+        200: {'description': 'Producto actualizado'},
+        422: {'description': 'Id no es un entero valido'},
     },
     description='Actualiza datos del producto via id.'
 )
-async def update(id: int) -> dict:
+async def update(id: Annotated[int, Path(gt=0, le=1000)]) -> dict:
     return {'id': id}
 
 
@@ -57,10 +59,10 @@ async def update(id: int) -> dict:
     path='/{id}',
     status_code=200,
     responses={
-        200: {'description': 'Producto eliminado.'},
-        422: {'description': 'Id tiene que ser un entero'},
+        200: {'description': 'Producto eliminado'},
+        422: {'description': 'Id no es un entero valido'},
     },
     description='Elimina producto via id.'
 )
-async def delete(id: int) -> None:
+async def delete(id: Annotated[int, Path(gt=0, le=1000)]) -> None:
     return None
