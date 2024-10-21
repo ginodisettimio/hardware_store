@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Path
+from fastapi import APIRouter, Path, Query
 
 router = APIRouter(prefix='/hardware')
 
@@ -13,7 +13,7 @@ router = APIRouter(prefix='/hardware')
     },
     description='Retorna una lista con todos los productos con sus respectivos datos.'
 )
-async def get_all() -> list:
+async def get_all(limit: Annotated[int, Query(gt=0, le=1000)], offset: Annotated[int, Query(ge=0)]) -> list:
     return []
 
 
