@@ -8,7 +8,7 @@ class NewHardwareRequest(BaseModel):
     kind: str = ''
     brand: str = ''
     distributor: str = ''
-    price: float = ''
+    price: float = 0.0
 
 
 class UpdateHardwareRequest(BaseModel):
@@ -22,9 +22,9 @@ class UpdateHardwareRequest(BaseModel):
 class HardwareResponse(BaseModel):
     id: int
     name: str
-    kind: str = ''
-    brand: str = ''
-    distributor: str = ''
-    price: float = ''
-    created: datetime
-    updated: datetime
+    kind: str | None = ''
+    brand: str | None = ''
+    distributor: str | None = ''
+    price: float = 0.0
+    created: datetime = datetime.now()
+    updated: datetime = datetime.now()
