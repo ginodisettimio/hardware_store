@@ -1,10 +1,9 @@
 import logging
 from typing import List
 
-from server.schemas.hardware_schemas import NewHardwareRequest, UpdateHardwareRequest, HardwareResponse
-from server.exceptions.server_exceptions import InternalServerError
-from server.exceptions.base_http_exception import BaseHTTPException
-from server.services.hardware_services import HardwareService
+from server.schemas import NewHardwareRequest, UpdateHardwareRequest, HardwareResponse
+from server.exceptions import InternalServerError, BaseHTTPException
+from server.services import HardwareService
 
 
 logger = logging.getLogger(name=__name__)
