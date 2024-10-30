@@ -7,10 +7,10 @@ class BadRequest(BaseHTTPException):
 
 
 class NotFound(BaseHTTPException):
-    description = 'No se encontró el recurso'
+    description = 'No se encontro el recurso'
     status_code = 404
 
 
 class UnproccesableEntity(BaseHTTPException):
-    description = 'El servidor no fue capaz de ejecutar las intrucciones requeridas'
+    description = 'Algo fallo en la request'
     status_code = 422

@@ -1,6 +1,12 @@
-#Virtual enviroment
+# Virtual enviroment
 **/venv
 **/env
 
-#Python files
+# Python files
 **/__pycache__
+
+# Secret
+.env
+
+# Logs
+logs
