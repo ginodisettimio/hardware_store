@@ -2,15 +2,16 @@ from typing import Annotated, List
 
 from fastapi import APIRouter, Path, Query
 
-from server.schemas.hardware_schemas import NewHardwareRequest, HardwareResponse, UpdateHardwareRequest
-from server.controllers.hardware_controllers import HardwareController
-from server.exceptions.client_exceptions import BadRequest, UnproccesableEntity, NotFound
-from server.exceptions.server_exceptions import InternalServerError, NotImplemented
+from server.schemas import NewHardwareRequest, HardwareResponse, UpdateHardwareRequest
+from server.controllers import HardwareController
+from server.exceptions import UnproccesableEntity, NotFound, InternalServerError
 
 router = APIRouter(prefix='/hardware')
 
 router.responses = {
     500: InternalServerError.as_dict(),
+    404: NotFound.as_dict(),
+    422: UnproccesableEntity.as_dict(),
 }
 controller = HardwareController()
 
@@ -20,7 +21,6 @@ controller = HardwareController()
     status_code=201,
     responses={
         201: {'description': 'Producto creado'},
-        422: UnproccesableEntity.as_dict(),
     },
     description='Crea producto agregandole sus datos e id. Puede fallar si el Body Param esta incompleto.'
 )
@@ -33,8 +33,6 @@ async def create(new_product: NewHardwareRequest) -> HardwareResponse:
     status_code=200,
     responses={
         200: {'description': 'Lista de productos'},
-        404: NotFound.as_dict(),
-        422: UnproccesableEntity.as_dict(),
     },
     description='Retorna una lista con todos los productos con sus respectivos datos.'
 )
@@ -47,8 +45,6 @@ async def get_all(limit: Annotated[int, Query(gt=0, le=1000)] = 10, offset: Anno
     status_code=200,
     responses={
         200: {'description': 'Producto encontrado'},
-        404: NotFound.as_dict(),
-        422: UnproccesableEntity.as_dict(),
     },
     description='Retorna producto con sus respectivos datos via id. Puede fallar si la ID ingresada no coincide con ningún producto.'
 )
@@ -61,8 +57,6 @@ async def get_by_id(id: Annotated[int, Path(gt=0)]) -> HardwareResponse:
     status_code=200,
     responses={
         200: {'description': 'Producto actualizado'},
-        404: NotFound.as_dict(),
-        422: UnproccesableEntity.as_dict(),
     },
     description='Actualiza datos del producto via id. Puede fallar si la ID ingresada no coincide con ningún producto.'
 )
@@ -75,8 +69,6 @@ async def update(id: Annotated[int, Path(gt=0, le=1000)], product: UpdateHardwar
     status_code=204,
     responses={
         204: {'description': 'Producto eliminado'},
-        404: NotFound.as_dict(),
-        422: UnproccesableEntity.as_dict(),
     },
     description='Elimina producto via id. Puede fallar si la ID ingresada no coincide con ningún producto.'
 )

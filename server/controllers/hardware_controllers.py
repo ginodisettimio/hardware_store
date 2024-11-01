@@ -19,7 +19,6 @@ class HardwareController:
             logger.debug(f'Crear producto {new_product.name}')
             return self.service.create(new_product)
         except BaseHTTPException as ex:
-            logger.debug(f'Excepción capturada: {type(ex).__name__} - {ex.description}')
             self.__handler_http_exception(ex)
         except Exception:
             logger.critical(msg=f'Error no contemplado en {__name__}.create()')
@@ -30,7 +29,6 @@ class HardwareController:
             logger.debug(msg=f'Obtener todos los productos')
             return self.service.get_all(limit, offset)
         except BaseHTTPException as ex:
-            logger.debug(f'Excepción capturada: {type(ex).__name__} - {ex.description}')
             self.__handler_http_exception(ex)
         except Exception:
             logger.critical(msg=f'Error no contemplado en {__name__}.create()')
@@ -43,8 +41,7 @@ class HardwareController:
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception:
-            logger.critical(msg=f'Error no contemplado en {
-                            __name__}.get_by_id()')
+            logger.critical(msg=f'Error no contemplado en { __name__}.get_by_id()')
             raise InternalServerError()
 
     def update(self, id: int, product: UpdateHardwareRequest) -> HardwareResponse:
