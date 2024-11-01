@@ -21,4 +21,4 @@ class HardwareApi:
         response = self.client.get(url=url, params=params)
         logger.info(f'[GET] {response.url}: {response.status_code}')
 
-        return response.json
+        return response.json()
