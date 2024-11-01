@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     PORT: int = 8000
     DEV: bool = False
 
+    #External Data
+    HARDWARE_API: str
+
     #Logging
     DEBUG: bool = False
 

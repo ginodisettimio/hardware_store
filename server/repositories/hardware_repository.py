@@ -1,5 +1,7 @@
 from typing import List
 
+from server.external_api import hardware_api_client
+
 
 class HardwareRepository:
     last_id = 0
@@ -20,8 +22,9 @@ class HardwareRepository:
     def get_all(self, limit: int, offset: int) -> List[dict]:
         db_size = len(self.fake_db)
         first_index = min(db_size, offset)
-        last_index = max((db_size-first_index), limit)
+        last_index = max((db_size - first_index), limit)
         return self.fake_db[first_index:last_index]
+        #return hardware_api_client.get_all(limit, offset)
 
     def get_by_id(self, id: int) -> dict | None:
         for product in self.fake_db:

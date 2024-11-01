@@ -1,6 +1,9 @@
-#FastAPI
+# FastAPI
 FastAPI==0.115.2
 uvicorn==0.32.0
 
-#Settings
+# Settings
 pydantic-settings==2.6.0
+
+# Data
+requests==2.32.3
