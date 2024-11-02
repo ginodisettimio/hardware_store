@@ -2,15 +2,18 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    #API
+    # API
     API: str = '127.0.0.1'
     PORT: int = 8000
     DEV: bool = False
 
-    #External Data
+    # External Data
     HARDWARE_API: str
 
-    #Logging
+    # Database
+    DB_CONNECTION: str
+
+    # Logging
     DEBUG: bool = False
 
     class Config:

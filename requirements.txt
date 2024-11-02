@@ -7,3 +7,5 @@ pydantic-settings==2.6.0
 
 # Data
 requests==2.32.3
+sqlalchemy==2.0.36
+psycopg2-binary==2.9.10

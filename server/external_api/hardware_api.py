@@ -7,6 +7,7 @@ from server.configs import app_settings
 
 logger = logging.getLogger(name=__name__)
 
+
 class HardwareApi:
     def __init__(self) -> None:
         self.client = requests.Session()

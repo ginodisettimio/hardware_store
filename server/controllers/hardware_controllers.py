@@ -31,7 +31,8 @@ class HardwareController:
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.create()')
+            logger.critical(msg=f'Error no contemplado en {
+                            __name__}.get_all()')
             raise InternalServerError()
 
     def get_by_id(self, id: int) -> HardwareResponse:
@@ -41,7 +42,8 @@ class HardwareController:
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception:
-            logger.critical(msg=f'Error no contemplado en { __name__}.get_by_id()')
+            logger.critical(msg=f'Error no contemplado en {
+                            __name__}.get_by_id()')
             raise InternalServerError()
 
     def update(self, id: int, product: UpdateHardwareRequest) -> HardwareResponse:
@@ -66,7 +68,8 @@ class HardwareController:
 
     def __handler_http_exception(self, ex: BaseHTTPException):
         if ex.status_code >= 500:
-            logger.critical(f'Error en el servidor con status code:{ex.status_code} : {ex.description}')
+            logger.critical(f'Error en el servidor con status code:{
+                            ex.status_code} : {ex.description}')
         else:
             logger.error(f'Error {ex.status_code} : {ex.description}')
         raise ex
