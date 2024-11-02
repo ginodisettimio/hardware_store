@@ -12,3 +12,4 @@ class HardwareModel(BaseModel):
     brand: Mapped[str] = mapped_column(String(length=50), nullable=False)
     distributor: Mapped[str] = mapped_column(String(length=50), nullable=False)
     price: Mapped[float] = mapped_column(Float(precision=3), nullable=False)
+    IVA: Mapped[str] = mapped_column(String(4), default='21%' ,nullable=False)

@@ -5,5 +5,5 @@ from server.configs import app_settings
 database_connection = DatabaseConnection(app_settings.DB_CONNECTION)
 
 
-def create_tables():
-    BaseModel.metadata.create_all(bind=database_connection.engine)
+# def create_tables():
+#     BaseModel.metadata.create_all(bind=database_connection.engine)

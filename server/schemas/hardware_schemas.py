@@ -28,3 +28,4 @@ class HardwareResponse(BaseModel):
     price: float = 0.0
     created: datetime = datetime.now()
     updated: datetime = datetime.now()
+    IVA: str = '21%'

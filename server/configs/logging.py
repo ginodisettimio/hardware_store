@@ -19,11 +19,10 @@ def config_logger(debug_level: bool) -> None:
         backupCount=0,
     )
     handler.suffix = '%Y%m%d'
+    logger.addHandler(handler)
 
     formatter = logging.Formatter(
         fmt='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     handler.setFormatter(formatter)
-
-    logger.addHandler(handler)

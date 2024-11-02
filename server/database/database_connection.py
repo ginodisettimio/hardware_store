@@ -24,7 +24,6 @@ class DatabaseConnection:
     def connect(self) -> bool:
         try:
             self.session.connection()
-            print('\033[92m', 'Connected to Database', '\033[0m')
             return True
         except Exception:
             print('\033[91m', 'Database connection failed', '\033[0m')
