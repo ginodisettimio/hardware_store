@@ -1,1 +1,2 @@
 from server.repositories.hardware_repository import HardwareRepository
+from server.repositories.users_repository import UsersRepository

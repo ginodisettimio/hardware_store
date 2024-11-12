@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String, Float
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String, Float, ForeignKey
 
 from server.database.models import BaseModel
 
@@ -13,3 +13,14 @@ class HardwareModel(BaseModel):
     distributor: Mapped[str] = mapped_column(String(length=50), nullable=False)
     price: Mapped[float] = mapped_column(Float(precision=3), nullable=False)
     IVA: Mapped[str] = mapped_column(String(4), default='21%' ,nullable=False)
+
+    # Foreign_Key
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=True)
+
+    owner = relationship('UserModel', back_populates='products')
+
+    def to_dict(self):
+        response = super().to_dict()
+        if self.owner:
+            response['owner'] = self.owner.to_dict()
+        return response

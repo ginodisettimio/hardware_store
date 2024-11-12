@@ -1,1 +1,2 @@
 from server.controllers.hardware_controllers import HardwareController
+from server.controllers.user_controllers import UsersController
