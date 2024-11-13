@@ -2,6 +2,8 @@ from datetime import datetime
 
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+from server.database import database_connection
+
 
 class BaseModel(DeclarativeBase):
     __abstract__ = True

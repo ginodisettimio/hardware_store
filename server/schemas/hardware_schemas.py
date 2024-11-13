@@ -2,6 +2,8 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+from server.schemas.user_schemas import UserResponse
+
 
 class NewHardwareRequest(BaseModel):
     name: str
@@ -9,6 +11,7 @@ class NewHardwareRequest(BaseModel):
     brand: str = ''
     distributor: str = ''
     price: float = 0.0
+    user_id: int 
 
 
 class UpdateHardwareRequest(BaseModel):
@@ -17,15 +20,18 @@ class UpdateHardwareRequest(BaseModel):
     brand: str | None = None
     distributor: str | None = None
     price: float | None = None
+    user_id: int | None = None
 
 
 class HardwareResponse(BaseModel):
     id: int
     name: str
-    kind: str | None = ''
-    brand: str | None = ''
-    distributor: str | None = ''
+    kind: str
+    brand: str
+    distributor: str
     price: float = 0.0
+    IVA: str = '21%'
+    user_id: int
+    buyer: UserResponse
     created: datetime = datetime.now()
     updated: datetime = datetime.now()
-    IVA: str = '21%'

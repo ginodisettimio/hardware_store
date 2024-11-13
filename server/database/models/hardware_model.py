@@ -15,12 +15,12 @@ class HardwareModel(BaseModel):
     IVA: Mapped[str] = mapped_column(String(4), default='21%' ,nullable=False)
 
     # Foreign_Key
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
 
-    owner = relationship('UserModel', back_populates='products')
+    buyer = relationship('UserModel', back_populates='products')
 
     def to_dict(self):
         response = super().to_dict()
-        if self.owner:
-            response['owner'] = self.owner.to_dict()
+        if self.buyer:
+            response['buyer'] = self.buyer.to_dict()
         return response

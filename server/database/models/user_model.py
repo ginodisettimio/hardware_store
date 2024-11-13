@@ -13,7 +13,7 @@ class UserModel(BaseModel):
     email: Mapped[str] = mapped_column(String(length=200), unique=True, nullable=False)
     role: Mapped[str] = mapped_column(String(length=20), nullable=False)
 
-    products = relationship('HardwareModel', back_populates='owner')
+    products = relationship('HardwareModel', back_populates='buyer')
 
     @property
     def password(self) -> str:
@@ -21,5 +21,5 @@ class UserModel(BaseModel):
     
     @password.setter
     def password(self, plain_password: str) -> None:
-        hashed_password = bcrypt.hashpw(plain_password('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(plain_password.encode('utf-8'), bcrypt.gensalt())
         self.encrypted_password = hashed_password.decode('utf-8')

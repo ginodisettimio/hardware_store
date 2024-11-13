@@ -76,4 +76,4 @@ class HardwareRepository:
         return True
 
     def __get_one(self, product_id: int) -> HardwareModel | None:
-        return self.database.query(HardwareModel).filter_by(product_id=product_id).first()
+        return self.database.query(HardwareModel).filter_by(id=product_id).first()

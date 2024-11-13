@@ -33,8 +33,8 @@ class UsersRepository:
             return
         return user.to_dict()
 
-    def update(self, id: int, new_data: dict) -> dict | None:
-        user = self.__get_one(id)
+    def update(self, user_id: int, new_data: dict) -> dict | None:
+        user = self.__get_one(user_id)
         if user is None:
             return
         for field in new_data.keys():
@@ -51,5 +51,6 @@ class UsersRepository:
         self.database.commit()
         return True
 
-    def __get_one(self, user_id: int) -> UserModel | None:
-        return self.database.query(UserModel).filter_by(user_id=user_id).first()
+    def __get_one(self, product_id: int) -> UserModel | None:
+        return self.database.query(UserModel).filter_by(id=product_id).first()
+    
