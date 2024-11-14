@@ -20,8 +20,8 @@ class HardwareController:
             return self.service.create(new_product)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.create()')
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.create()' + str(ex))
             raise InternalServerError()
 
     def get_all(self, limit: int, offset: int) -> List[HardwareResponse]:
@@ -30,9 +30,9 @@ class HardwareController:
             return self.service.get_all(limit, offset)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.get_all()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.get_all()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def get_by_id(self, product_id: int) -> HardwareResponse:
         try:
@@ -40,19 +40,19 @@ class HardwareController:
             return self.service.get_by_id(product_id)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.get_by_id()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.get_by_id()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def update(self, product_id: int, product: UpdateHardwareRequest) -> HardwareResponse:
         try:
-            logger.debug(msg=f'Actualizar producto {product.name} id #{product_id}')
+            logger.debug(msg=f'Actualizar producto {product.name} id #{product_id}' + str(ex))
             return self.service.update(product_id, product)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.update()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.update()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def delete(self, product_id: int) -> None:
         try:
@@ -60,9 +60,9 @@ class HardwareController:
             return self.service.delete(product_id)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.delete()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.delete()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def __handler_http_exception(self, ex: BaseHTTPException):
         if ex.status_code >= 500:

@@ -24,9 +24,9 @@ class UsersController:
         except UniqFieldException as ex:
             logger.error(str(ex))
             raise BadRequest('Campo username/email duplicado.')
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.create()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.create()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def get_all(self, limit: int, offset: int) -> List[UserResponse]:
         try:
@@ -34,9 +34,9 @@ class UsersController:
             return self.service.get_all(limit, offset)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.get_all()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.get_all()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def get_by_id(self, user_id: int) -> UserResponse:
         try:
@@ -44,9 +44,9 @@ class UsersController:
             return self.service.get_by_id(user_id)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.get_by_id()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.get_by_id()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def update(self, user_id: int, user: UpdateUserRequest) -> UserResponse:
         try:
@@ -54,9 +54,9 @@ class UsersController:
             return self.service.update(user_id, user)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.update()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.update()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def delete(self, user_id: int) -> None:
         try:
@@ -64,9 +64,9 @@ class UsersController:
             return self.service.delete(user_id)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
-        except Exception:
-            logger.critical(msg=f'Error no contemplado en {__name__}.delete()')
-            raise InternalServerError()
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {__name__}.delete()' + str(ex))
+            raise InternalServerError(str(ex))
 
     def __handler_http_exception(self, ex: BaseHTTPException):
         if ex.status_code >= 500:

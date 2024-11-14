@@ -4,6 +4,7 @@ uvicorn==0.32.0
 
 # Settings
 pydantic-settings==2.6.0
+python-multipart==0.0.17
 
 # Data
 requests==2.32.3
@@ -14,3 +15,4 @@ pydantic[email]==2.9.2
 
 # Security
 bcrypt==4.2.0
+PyJWT==2.9.0

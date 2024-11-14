@@ -23,3 +23,6 @@ class UserModel(BaseModel):
     def password(self, plain_password: str) -> None:
         hashed_password = bcrypt.hashpw(plain_password.encode('utf-8'), bcrypt.gensalt())
         self.encrypted_password = hashed_password.decode('utf-8')
+
+    def check_password(self, password: str) -> bool:
+        return bcrypt.checkpw(password.encode('utf-8'), self.password.encode('utf-8'))

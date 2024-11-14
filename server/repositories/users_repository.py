@@ -32,6 +32,9 @@ class UsersRepository:
         if user is None:
             return
         return user.to_dict()
+    
+    def get_by_username(self, username: str) -> dict | None:
+        return self.database.query(UserModel).filter_by(username=username).first()
 
     def update(self, user_id: int, new_data: dict) -> dict | None:
         user = self.__get_one(user_id)
@@ -50,7 +53,13 @@ class UsersRepository:
         self.database.delete(user)
         self.database.commit()
         return True
+    
+    def check_password(self, user_id: int, plain_password: str) -> bool:
+        user = self.__get_one(user_id)
+        if user is None: 
+            return False
+        return user.check_password(plain_password)
 
-    def __get_one(self, product_id: int) -> UserModel | None:
-        return self.database.query(UserModel).filter_by(id=product_id).first()
+    def __get_one(self, user_id: int) -> UserModel | None:
+        return self.database.query(UserModel).filter_by(id=user_id).first()
     
