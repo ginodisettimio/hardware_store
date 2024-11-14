@@ -26,9 +26,16 @@ class AuthService:
         response.acces_token = self.__get_token(response.user.id, response.user.role)
         return response
 
-    def __get_token(self, user: UserResponse) -> TokenResponse:
+    def __get_user_token(self, user_id, user_role) -> str:
         payload = {
-            'user_id': str(user.id),
-            'role': user.role,
-        } 
+            'user_id': str(user_id),
+            'role': user_role,
+        }
         return jwt_handler.encode(payload)
+    
+    def __get_token(self, user: UserResponse) -> TokenResponse:
+        token = self.__get_user_token(user.id, user.role)
+        return TokenResponse(
+            acces_token=token,
+            user=user,
+        )

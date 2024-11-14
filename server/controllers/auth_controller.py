@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from server.schemas import RegisterUser, LoginUser, TokenResponse
-from server.exceptions import InternalServerError, BaseHTTPException
+from server.exceptions import InternalServerError, BaseHTTPException, UniqFieldException, BadRequest
 from server.services import AuthService
 
 
@@ -19,6 +19,9 @@ class AuthController():
             return self.auth_service.register(new_user)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
+        except UniqFieldException as ex:
+            logger.error(str(ex))
+            raise BadRequest('Campo username/email duplicado.')
         except Exception as ex:
             logger.critical(msg=f'Error no contemplado en {
                             __name__}.register()' + str(ex))

@@ -34,7 +34,10 @@ class UsersRepository:
         return user.to_dict()
     
     def get_by_username(self, username: str) -> dict | None:
-        return self.database.query(UserModel).filter_by(username=username).first()
+        user = self.database.query(UserModel).filter_by(username=username).first()
+        if user is None:
+            return
+        return user.to_dict()
 
     def update(self, user_id: int, new_data: dict) -> dict | None:
         user = self.__get_one(user_id)
