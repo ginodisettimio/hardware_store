@@ -8,7 +8,7 @@ from server.configs import app_settings
 class JWTHandler():
     
     def __init__(self):
-        self.secret_key: str = app_settings
+        self.secret_key: str = app_settings.JWT_SECRET_KEY
         self.algorithm: str = app_settings.JWT_ALGORITHM
         self.expiration_delta = timedelta(minutes=app_settings.JWT_EXPIRATION_TIME_MINUTES)
 
