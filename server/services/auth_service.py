@@ -23,7 +23,7 @@ class AuthService:
         if not is_password_ok:
             raise BadRequest('Error en username/password')
         response = TokenResponse.model_validate({'user': user})
-        response.acces_token = self.__get_token(response.user.id, response.user.role)
+        response.acces_token = self.__get_user_token(response.user.id, response.user.role)
         return response
 
     def __get_user_token(self, user_id, user_role) -> str:
