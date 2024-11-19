@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from pydantic import BaseModel, EmailStr
 
-from server.schemas import UserResponse
+from server.schemas.user_schemas import UserResponse
 from server.enums import RoleEnum
 
 
@@ -20,3 +22,9 @@ class TokenResponse(BaseModel):
     acces_token: str = ''
     token_type: str = 'bearer'
     user: UserResponse
+
+
+class DecodedJwt(BaseModel):
+    user_id: int
+    role: RoleEnum
+    exp: datetime

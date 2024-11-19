@@ -1,0 +1,1 @@
+from server.dependencies.auth_dependencies import has_permission

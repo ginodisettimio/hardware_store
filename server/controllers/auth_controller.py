@@ -1,5 +1,4 @@
 import logging
-from typing import List
 
 from server.schemas import RegisterUser, LoginUser, TokenResponse
 from server.exceptions import InternalServerError, BaseHTTPException, UniqFieldException, BadRequest
@@ -23,8 +22,7 @@ class AuthController():
             logger.error(str(ex))
             raise BadRequest('Campo username/email duplicado.')
         except Exception as ex:
-            logger.critical(msg=f'Error no contemplado en {
-                            __name__}.register()' + str(ex))
+            logger.critical(msg=f'Error no contemplado en {__name__}.register()' + str(ex))
             raise InternalServerError(str(ex))
 
     def login(self, credentials: LoginUser) -> TokenResponse:
@@ -33,8 +31,7 @@ class AuthController():
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception as ex:
-            logger.critical(msg=f'Error no contemplado en {
-                            __name__}.login()' + str(ex))
+            logger.critical(f'Error no contemplado en {__name__}.login(): ' + str(ex))
             raise InternalServerError(str(ex))
 
     def __handler_http_exception(self, ex: BaseHTTPException):

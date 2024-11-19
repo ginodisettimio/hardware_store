@@ -2,7 +2,7 @@ from typing import Annotated, List
 
 from fastapi import APIRouter, Path, Query
 
-from server.schemas import NewHardwareRequest, HardwareResponse, UpdateHardwareRequest
+from server.schemas.hardware_schemas import NewHardwareRequest, HardwareResponse, UpdateHardwareRequest
 from server.controllers import HardwareController
 from server.exceptions import UnproccesableEntity, NotFound, InternalServerError
 

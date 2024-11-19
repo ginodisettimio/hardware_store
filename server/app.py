@@ -1,11 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware import Middleware
 
 from server.api import router_api
 from server.database import database_connection
+from server.middlewares.request_logging_middleware import RequestLoggingMiddleware
+from server.middlewares.jwt_middleware import JwtMiddleware
 
 
-hardware = FastAPI()
+api_middlewares = [
+    Middleware(RequestLoggingMiddleware),
+    Middleware(JwtMiddleware),
+]
 
+hardware = FastAPI(middleware=api_middlewares)
+
+# Incluimos el router principal a la instancia de FastAPI
 hardware.include_router(router_api)
 
 # if database_connection.connect() is True:
