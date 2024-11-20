@@ -7,7 +7,7 @@ from server.schemas.auth_schemas import DecodedJwt
 from server.controllers import UsersController
 from server.exceptions import UnproccesableEntity, NotFound, InternalServerError
 from server.dependencies.auth_dependencies import has_permission
-from server.enums import RoleEnum
+from server.enums import ADMIN_ROLES
 
 
 router = APIRouter(prefix='/users')
@@ -30,7 +30,7 @@ controller = UsersController()
 )
 async def create(
     new_user: NewUserRequest,
-    token: DecodedJwt = Depends(has_permission([RoleEnum.ADMIN])),
+    _: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> UserResponse:
     return controller.create(new_user)
 
@@ -46,10 +46,9 @@ async def create(
 async def get_all(
     limit: Annotated[int, Query(gt=0, le=1000)] = 10,
     offset: Annotated[int, Query(ge=0)] = 0,
-    token: DecodedJwt = Depends(has_permission([RoleEnum.COMMON])),
+    _: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
     # El Depends le va a pasar la lista y la funcion interna retorna la referencia a la funcion
 ) -> List[UserResponse]:
-    print(token)
     return controller.get_all(limit, offset)
 
 
@@ -63,7 +62,7 @@ async def get_all(
 )
 async def get_by_id(
     id: Annotated[int, Path(gt=0)],
-    token: DecodedJwt = Depends(has_permission([RoleEnum.ADMIN])),
+    _: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> UserResponse:
     return controller.get_by_id(id)
 
@@ -79,7 +78,7 @@ async def get_by_id(
 async def update(
     id: Annotated[int, Path(gt=0, le=1000)],
     user: UpdateUserRequest,
-    token: DecodedJwt = Depends(has_permission([RoleEnum.ADMIN])),
+    _: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> UserResponse:
     return controller.update(id, user)
 
@@ -94,6 +93,6 @@ async def update(
 )
 async def delete(
     id: Annotated[int, Path(gt=0, le=1000)],
-    token: DecodedJwt = Depends(has_permission([RoleEnum.ADMIN])),
+    _: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> None:
     return controller.delete(id)

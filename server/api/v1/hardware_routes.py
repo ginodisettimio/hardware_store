@@ -1,10 +1,14 @@
 from typing import Annotated, List
 
-from fastapi import APIRouter, Path, Query
+from fastapi import APIRouter, Path, Query, Depends
 
 from server.schemas.hardware_schemas import NewHardwareRequest, HardwareResponse, UpdateHardwareRequest
 from server.controllers import HardwareController
 from server.exceptions import UnproccesableEntity, NotFound, InternalServerError
+from server.schemas.auth_schemas import DecodedJwt
+from server.dependencies import has_permission
+from server.enums import ALL_ROLES
+
 
 router = APIRouter(prefix='/hardware')
 
@@ -24,7 +28,10 @@ controller = HardwareController()
     },
     description='Crea producto agregandole sus datos e id. Puede fallar si el Body Param esta incompleto.'
 )
-async def create(new_product: NewHardwareRequest) -> HardwareResponse:
+async def create(
+    new_product: NewHardwareRequest,
+    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+) -> HardwareResponse:
     return controller.create(new_product)
 
 
@@ -36,7 +43,11 @@ async def create(new_product: NewHardwareRequest) -> HardwareResponse:
     },
     description='Retorna una lista con todos los productos con sus respectivos datos.'
 )
-async def get_all(limit: Annotated[int, Query(gt=0, le=1000)] = 10, offset: Annotated[int, Query(ge=0)] = 0) -> List[HardwareResponse]:
+async def get_all(
+    limit: Annotated[int, Query(gt=0, le=1000)] = 10,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+) -> List[HardwareResponse]:
     return controller.get_all(limit, offset)
 
 
@@ -48,7 +59,10 @@ async def get_all(limit: Annotated[int, Query(gt=0, le=1000)] = 10, offset: Anno
     },
     description='Retorna producto con sus respectivos datos via id. Puede fallar si la ID ingresada no coincide con ningún producto.'
 )
-async def get_by_id(id: Annotated[int, Path(gt=0)]) -> HardwareResponse:
+async def get_by_id(
+    id: Annotated[int, Path(gt=0)],
+    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+) -> HardwareResponse:
     return controller.get_by_id(id)
 
 
@@ -60,7 +74,11 @@ async def get_by_id(id: Annotated[int, Path(gt=0)]) -> HardwareResponse:
     },
     description='Actualiza datos del producto via id. Puede fallar si la ID ingresada no coincide con ningún producto.'
 )
-async def update(id: Annotated[int, Path(gt=0, le=1000)], product: UpdateHardwareRequest) -> HardwareResponse:
+async def update(
+    id: Annotated[int, Path(gt=0, le=1000)], 
+    product: UpdateHardwareRequest,
+    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+) -> HardwareResponse:
     return controller.update(id, product)
 
 
@@ -72,5 +90,8 @@ async def update(id: Annotated[int, Path(gt=0, le=1000)], product: UpdateHardwar
     },
     description='Elimina producto via id. Puede fallar si la ID ingresada no coincide con ningún producto.'
 )
-async def delete(id: Annotated[int, Path(gt=0, le=1000)]) -> None:
+async def delete(
+    id: Annotated[int, Path(gt=0, le=1000)],
+    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+) -> None:
     return controller.delete(id)

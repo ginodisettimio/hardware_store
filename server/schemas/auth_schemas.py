@@ -10,7 +10,6 @@ class RegisterUser(BaseModel):
     username: str
     password: str
     email: EmailStr
-    role: RoleEnum = RoleEnum.COMMON
 
 
 class LoginUser(BaseModel):
@@ -19,7 +18,7 @@ class LoginUser(BaseModel):
 
 
 class TokenResponse(BaseModel):
-    acces_token: str = ''
+    access_token: str = ''
     token_type: str = 'bearer'
     user: UserResponse
 

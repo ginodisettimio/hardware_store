@@ -10,6 +10,7 @@ request_logger = logging.getLogger(name='request_logger')
 
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     SENSITIVE_FIELDS = ['password']
+
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         # Capturar los datos del request para loggearlos
         initial_time = time.time()
@@ -26,7 +27,8 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
         # Despues del endpoint
         end_time = time.time()
         execution_time = str(end_time - initial_time) + 'ms'
-        info_data = f'{client_ip} - "{method} {url}{f"?{query_params}" if query_params else ""}" code={response.status_code} time={execution_time}'
+        info_data = f'{client_ip} - "{method} {url}{f"?{query_params}" if query_params else ""}" code={
+            response.status_code} time={execution_time}'
         if body_param:
             info_data += f'\nBODY: {str(body_param)}'
         request_logger.info(info_data)

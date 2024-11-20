@@ -1,8 +1,9 @@
-from server.schemas import RegisterUser, TokenResponse, LoginUser, UserResponse
+from server.schemas import RegisterUser, TokenResponse, LoginUser, UserResponse, NewUserRequest
 from server.exceptions import BadRequest
 from server.repositories import UsersRepository
 from server.services import UsersService
-from server.handlers.jwt_handler import jwt_handler
+from server.handlers import jwt_handler
+from server.enums import RoleEnum
 
 
 class AuthService:
@@ -12,7 +13,9 @@ class AuthService:
         self.user_repository = UsersRepository()
 
     def register(self, new_user: RegisterUser) -> TokenResponse:
-        user = self.user_service.create(new_user)
+        new_user_dict = new_user.model_dump()
+        new_user_dict.update(role=RoleEnum.COMMON)
+        user = self.user_service.create(NewUserRequest(**new_user_dict))
         return self.__get_token(user)
     
     def login(self, credentials: LoginUser) -> TokenResponse:
@@ -23,13 +26,13 @@ class AuthService:
         if not is_password_ok:
             raise BadRequest('Error en username/password')
         response = TokenResponse.model_validate({'user': user})
-        response.acces_token = self.__get_user_token(response.user.id, response.user.role)
+        response.access_token = self.__get_user_token(response.user.id, response.user.role)
         return response
 
     def __get_token(self, user: UserResponse) -> TokenResponse:
         token = self.__get_user_token(user.id, user.role)
         return TokenResponse(
-            acces_token=token,
+            access_token=token,
             user=user,
         )
 

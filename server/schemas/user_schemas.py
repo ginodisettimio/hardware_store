@@ -4,6 +4,7 @@ from pydantic import BaseModel, EmailStr
 
 from server.enums import RoleEnum
 
+
 class NewUserRequest(BaseModel):
     username: str
     password: str
@@ -22,6 +23,6 @@ class UserResponse(BaseModel):
     id: int
     username: str
     email: EmailStr
-    role: RoleEnum 
+    role: RoleEnum
     created: datetime = datetime.now()
     updated: datetime = datetime.now()

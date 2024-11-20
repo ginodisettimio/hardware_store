@@ -6,7 +6,7 @@ from fastapi import HTTPException, Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint as Callback
 
 from server.configs import app_settings as settings
-from server.handlers.jwt_handler import jwt_handler
+from server.handlers import jwt_handler
 
 
 logger = logging.getLogger(__name__)
