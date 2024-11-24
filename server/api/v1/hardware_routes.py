@@ -2,7 +2,7 @@ from typing import Annotated, List
 
 from fastapi import APIRouter, Path, Query, Depends
 
-from server.schemas.hardware_schemas import NewHardwareRequest, HardwareResponse, UpdateHardwareRequest
+from server.schemas.hardware_schemas import NewHardwareRequest, HardwareResponse, UpdateHardwareRequest, BuyedHardwareResponse
 from server.controllers import HardwareController
 from server.exceptions import UnproccesableEntity, NotFound, InternalServerError
 from server.schemas.auth_schemas import DecodedJwt
@@ -39,6 +39,22 @@ async def create(
     path='',
     status_code=200,
     responses={
+        200: {'description': 'Lista de todos los productos'},
+    },
+    description='Retorna una lista con todos los productos con sus respectivos datos.'
+)
+async def get_list(
+    limit: Annotated[int, Query(gt=0, le=1000)] = 10,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    _: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+) -> List[HardwareResponse]:
+    return controller.get_list(limit, offset)
+
+
+@router.get(
+    path='/buyed',
+    status_code=200,
+    responses={
         200: {'description': 'Lista de productos comprados por el usuario'},
     },
     description='Retorna una lista con todos los productos comprados con sus respectivos datos.'
@@ -47,7 +63,7 @@ async def get_buyed_products_list(
     limit: Annotated[int, Query(gt=0, le=1000)] = 10,
     offset: Annotated[int, Query(ge=0)] = 0,
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
-) -> List[HardwareResponse]:
+) -> List[BuyedHardwareResponse]:
     return controller.get_buyed_products_list(limit, offset, token.user_id)
 
 
@@ -62,7 +78,7 @@ async def get_buyed_products_list(
 async def get_by_id(
     id: Annotated[int, Path(gt=0)],
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
-) -> HardwareResponse:
+) -> BuyedHardwareResponse:
     return controller.get_by_id(id, token)
 
 
@@ -75,10 +91,10 @@ async def get_by_id(
     description='Actualiza datos del producto via id. Puede fallar si la ID ingresada no coincide con ningún producto.'
 )
 async def update(
-    id: Annotated[int, Path(gt=0, le=1000)], 
+    id: Annotated[int, Path(gt=0, le=1000)],
     product: UpdateHardwareRequest,
     token: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
-) -> HardwareResponse:
+) -> BuyedHardwareResponse:
     return controller.update(id, product, token)
 
 

@@ -26,13 +26,24 @@ class HardwareRepository:
         self.database.refresh(new_product)
         return new_product.to_dict()
 
+    def get_list(self, limit: int, offset: int) -> List[dict]:
+        # db_size = len(self.fake_db)
+        # first_index = min(db_size, offset)
+        # last_index = max((db_size - first_index), limit)
+        # return self.fake_db[first_index:last_index]
+        # #return hardware_api_client.get_all(limit, offset)}
+        products = self.database.query(HardwareModel).order_by(
+            'id').offset(offset).limit(limit).all()
+        return [product.to_dict() for product in products]
+
     def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[dict]:
         # db_size = len(self.fake_db)
         # first_index = min(db_size, offset)
         # last_index = max((db_size - first_index), limit)
         # return self.fake_db[first_index:last_index]
         # #return hardware_api_client.get_all(limit, offset)}
-        products = self.database.query(HardwareModel).order_by('id').filter_by(user_id=user_id).offset(offset).limit(limit).all()
+        products = self.database.query(HardwareModel).order_by(
+            'id').filter_by(user_id=user_id).offset(offset).limit(limit).all()
         return [product.to_dict() for product in products]
 
     def get_by_id(self, product_id: int) -> dict | None:

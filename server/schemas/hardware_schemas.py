@@ -21,8 +21,18 @@ class UpdateHardwareRequest(BaseModel):
     price: float | None = None
     user_id: int
 
-
 class HardwareResponse(BaseModel):
+    id: int
+    name: str
+    kind: str
+    brand: str
+    distributor: str
+    price: float = 0.0
+    IVA: str = '21%'
+    created: datetime = datetime.now()
+    updated: datetime = datetime.now()
+
+class BuyedHardwareResponse(BaseModel):
     id: int
     name: str
     kind: str

@@ -1,7 +1,7 @@
 import logging
 from typing import List
 
-from server.schemas import NewHardwareRequest, UpdateHardwareRequest, HardwareResponse, DecodedJwt
+from server.schemas import NewHardwareRequest, UpdateHardwareRequest, HardwareResponse, BuyedHardwareResponse, DecodedJwt
 from server.exceptions import InternalServerError, BaseHTTPException
 from server.services import HardwareService
 from server.enums import ADMIN_ROLES
@@ -26,17 +26,29 @@ class HardwareController:
             logger.critical(msg=f'Error no contemplado en {__name__}.create()')
             raise InternalServerError(str(ex))
 
-    def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[HardwareResponse]:
+    def get_list(self, limit: int, offset: int) -> List[HardwareResponse]:
         try:
             logger.debug(msg=f'Obtener todos los productos')
+            return self.service.get_list(limit, offset)
+        except BaseHTTPException as ex:
+            self.__handler_http_exception(ex)
+        except Exception as ex:
+            logger.critical(msg=f'Error no contemplado en {
+                __name__}.get_list()')
+            raise InternalServerError(str(ex))
+
+    def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[BuyedHardwareResponse]:
+        try:
+            logger.debug(msg=f'Obtener lista de compras del usuario')
             return self.service.get_buyed_products_list(limit, offset, user_id)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception as ex:
-            logger.critical(msg=f'Error no contemplado en {__name__}.get_all()')
+            logger.critical(msg=f'Error no contemplado en {
+                            __name__}.get_buyed_products_lis()')
             raise InternalServerError(str(ex))
 
-    def get_by_id(self, product_id: int, token: DecodedJwt) -> HardwareResponse:
+    def get_by_id(self, product_id: int, token: DecodedJwt) -> BuyedHardwareResponse:
         try:
             logger.debug(msg=f'Obtener producto id #{product_id}')
             product = self.service.get_by_id(product_id)
@@ -45,12 +57,14 @@ class HardwareController:
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception as ex:
-            logger.critical(msg=f'Error no contemplado en {__name__}.get_by_id()')
+            logger.critical(msg=f'Error no contemplado en {
+                            __name__}.get_by_id()')
             raise InternalServerError(str(ex))
 
-    def update(self, product_id: int, product: UpdateHardwareRequest, token: DecodedJwt) -> HardwareResponse:
+    def update(self, product_id: int, product: UpdateHardwareRequest, token: DecodedJwt) -> BuyedHardwareResponse:
         try:
-            logger.debug(msg=f'Actualizar producto {product.name} id #{product_id}')
+            logger.debug(msg=f'Actualizar producto {
+                         product.name} id #{product_id}')
             self.__check_access(product.user_id, token)
             return self.service.update(product_id, product)
         except BaseHTTPException as ex:
@@ -72,7 +86,8 @@ class HardwareController:
 
     def __handler_http_exception(self, ex: BaseHTTPException):
         if ex.status_code >= 500:
-            logger.critical(f'Error en el servidor con status code:{ex.status_code} : {ex.description}')
+            logger.critical(f'Error en el servidor con status code:{
+                            ex.status_code} : {ex.description}')
         else:
             logger.error(f'Error {ex.status_code} : {ex.description}')
         raise ex
