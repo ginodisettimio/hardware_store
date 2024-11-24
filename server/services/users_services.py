@@ -21,16 +21,16 @@ class UsersService:
     def get_by_id(self, user_id: int) -> UserResponse:
         user = self.repository.get_by_id(user_id)
         if user is None:
-            raise NotFound(f'Producto con id #{user_id} no se ha encontrado')
+            raise NotFound(f'Usuario con id #{user_id} no se ha encontrado')
         return UserResponse(**user)
 
     def update(self, user_id: int, user: UpdateUserRequest) -> UserResponse:
-        updated_product = self.repository.update(
+        updated_user = self.repository.update(
             user_id, user.model_dump(exclude_none=True))
-        if updated_product is None:
-            raise NotFound(f'Producto con id #{user_id} no se ha encontrado')
-        return UserResponse(**updated_product)
+        if updated_user is None:
+            raise NotFound(f'Usuario con id #{user_id} no se ha encontrado')
+        return UserResponse(**updated_user)
 
     def delete(self, user_id: int) -> None:
         if not self.repository.delete(user_id):
-            raise NotFound(f'Producto con id #{user_id} no se ha encontrado')
+            raise NotFound(f'Usuario con id #{user_id} no se ha encontrado')
