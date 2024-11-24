@@ -16,8 +16,8 @@ class HardwareService:
         product_dict = self.repository.create(new_product_dict)
         return HardwareResponse(**product_dict)
 
-    def get_all(self, limit: int, offset: int, user_id: int) -> List[HardwareResponse]:
-        product_list = self.repository.get_all(limit, offset, user_id)
+    def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[HardwareResponse]:
+        product_list = self.repository.get_buyed_products_list(limit, offset, user_id)
         return [HardwareResponse(**product) for product in product_list]
 
     def get_by_id(self, product_id: int) -> HardwareResponse:

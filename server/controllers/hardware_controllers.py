@@ -26,10 +26,10 @@ class HardwareController:
             logger.critical(msg=f'Error no contemplado en {__name__}.create()')
             raise InternalServerError(str(ex))
 
-    def get_all(self, limit: int, offset: int, user_id: int) -> List[HardwareResponse]:
+    def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[HardwareResponse]:
         try:
             logger.debug(msg=f'Obtener todos los productos')
-            return self.service.get_all(limit, offset, user_id)
+            return self.service.get_buyed_products_list(limit, offset, user_id)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception as ex:

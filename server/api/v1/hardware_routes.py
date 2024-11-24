@@ -7,7 +7,7 @@ from server.controllers import HardwareController
 from server.exceptions import UnproccesableEntity, NotFound, InternalServerError
 from server.schemas.auth_schemas import DecodedJwt
 from server.dependencies import has_permission
-from server.enums import ALL_ROLES
+from server.enums import ALL_ROLES, ADMIN_ROLES
 
 
 router = APIRouter(prefix='/hardware')
@@ -30,7 +30,7 @@ controller = HardwareController()
 )
 async def create(
     new_product: NewHardwareRequest,
-    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+    token: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> HardwareResponse:
     return controller.create(new_product, token.user_id)
 
@@ -39,16 +39,16 @@ async def create(
     path='',
     status_code=200,
     responses={
-        200: {'description': 'Lista de productos'},
+        200: {'description': 'Lista de productos comprados por el usuario'},
     },
-    description='Retorna una lista con todos los productos con sus respectivos datos.'
+    description='Retorna una lista con todos los productos comprados con sus respectivos datos.'
 )
-async def get_all(
+async def get_buyed_products_list(
     limit: Annotated[int, Query(gt=0, le=1000)] = 10,
     offset: Annotated[int, Query(ge=0)] = 0,
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
 ) -> List[HardwareResponse]:
-    return controller.get_all(limit, offset, token.user_id)
+    return controller.get_buyed_products_list(limit, offset, token.user_id)
 
 
 @router.get(
@@ -77,7 +77,7 @@ async def get_by_id(
 async def update(
     id: Annotated[int, Path(gt=0, le=1000)], 
     product: UpdateHardwareRequest,
-    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+    token: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> HardwareResponse:
     return controller.update(id, product, token)
 
@@ -92,6 +92,6 @@ async def update(
 )
 async def delete(
     id: Annotated[int, Path(gt=0, le=1000)],
-    token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
+    token: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> None:
     return controller.delete(id, token)

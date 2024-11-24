@@ -26,7 +26,7 @@ class HardwareRepository:
         self.database.refresh(new_product)
         return new_product.to_dict()
 
-    def get_all(self, limit: int, offset: int, user_id: int) -> List[dict]:
+    def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[dict]:
         # db_size = len(self.fake_db)
         # first_index = min(db_size, offset)
         # last_index = max((db_size - first_index), limit)
