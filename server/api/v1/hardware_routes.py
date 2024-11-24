@@ -32,7 +32,7 @@ async def create(
     new_product: NewHardwareRequest,
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
 ) -> HardwareResponse:
-    return controller.create(new_product)
+    return controller.create(new_product, token.user_id)
 
 
 @router.get(
@@ -48,7 +48,7 @@ async def get_all(
     offset: Annotated[int, Query(ge=0)] = 0,
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
 ) -> List[HardwareResponse]:
-    return controller.get_all(limit, offset)
+    return controller.get_all(limit, offset, token.user_id)
 
 
 @router.get(
@@ -63,7 +63,7 @@ async def get_by_id(
     id: Annotated[int, Path(gt=0)],
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
 ) -> HardwareResponse:
-    return controller.get_by_id(id)
+    return controller.get_by_id(id, token)
 
 
 @router.patch(
@@ -79,7 +79,7 @@ async def update(
     product: UpdateHardwareRequest,
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
 ) -> HardwareResponse:
-    return controller.update(id, product)
+    return controller.update(id, product, token)
 
 
 @router.delete(
@@ -94,4 +94,4 @@ async def delete(
     id: Annotated[int, Path(gt=0, le=1000)],
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
 ) -> None:
-    return controller.delete(id)
+    return controller.delete(id, token)

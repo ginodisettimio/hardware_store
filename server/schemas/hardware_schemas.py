@@ -11,7 +11,6 @@ class NewHardwareRequest(BaseModel):
     brand: str = ''
     distributor: str = ''
     price: float = 0.0
-    user_id: int
 
 
 class UpdateHardwareRequest(BaseModel):
@@ -20,7 +19,7 @@ class UpdateHardwareRequest(BaseModel):
     brand: str | None = None
     distributor: str | None = None
     price: float | None = None
-    user_id: int | None = None
+    user_id: int
 
 
 class HardwareResponse(BaseModel):

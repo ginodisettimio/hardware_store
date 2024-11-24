@@ -1,6 +1,6 @@
 from typing import List
 
-from server.schemas import HardwareResponse, NewHardwareRequest, UpdateHardwareRequest
+from server.schemas import HardwareResponse, NewHardwareRequest, UpdateHardwareRequest, DecodedJwt
 from server.exceptions import NotFound
 from server.repositories import HardwareRepository
 
@@ -10,12 +10,14 @@ class HardwareService:
     def __init__(self) -> None:
         self.repository = HardwareRepository()
 
-    def create(self, new_product: NewHardwareRequest) -> HardwareResponse:
-        product_dict = self.repository.create(new_product.model_dump())
+    def create(self, new_product: NewHardwareRequest, user_id: int) -> HardwareResponse:
+        new_product_dict = new_product.model_dump()
+        new_product_dict.update(user_id=user_id)
+        product_dict = self.repository.create(new_product_dict)
         return HardwareResponse(**product_dict)
 
-    def get_all(self, limit: int, offset: int) -> List[HardwareResponse]:
-        product_list = self.repository.get_all(limit, offset)
+    def get_all(self, limit: int, offset: int, user_id: int) -> List[HardwareResponse]:
+        product_list = self.repository.get_all(limit, offset, user_id)
         return [HardwareResponse(**product) for product in product_list]
 
     def get_by_id(self, product_id: int) -> HardwareResponse:
