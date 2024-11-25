@@ -16,10 +16,10 @@ class HardwareController:
     def __init__(self):
         self.service = HardwareService()
 
-    def create(self, new_product: NewHardwareRequest, user_id: int) -> HardwareResponse:
+    def create(self, new_product: NewHardwareRequest) -> HardwareResponse:
         try:
             logger.debug(f'Crear producto {new_product.name}')
-            return self.service.create(new_product, user_id)
+            return self.service.create(new_product)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception as ex:

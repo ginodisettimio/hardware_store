@@ -10,9 +10,8 @@ class HardwareService:
     def __init__(self) -> None:
         self.repository = HardwareRepository()
 
-    def create(self, new_product: NewHardwareRequest, user_id: int) -> HardwareResponse:
+    def create(self, new_product: NewHardwareRequest) -> HardwareResponse:
         new_product_dict = new_product.model_dump()
-        new_product_dict.update(user_id=user_id)
         product_dict = self.repository.create(new_product_dict)
         return HardwareResponse(**product_dict)
 

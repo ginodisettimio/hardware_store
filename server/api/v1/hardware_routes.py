@@ -32,7 +32,7 @@ async def create(
     new_product: NewHardwareRequest,
     token: DecodedJwt = Depends(has_permission(ADMIN_ROLES)),
 ) -> HardwareResponse:
-    return controller.create(new_product, token.user_id)
+    return controller.create(new_product)
 
 
 @router.get(

@@ -15,7 +15,7 @@ class HardwareModel(BaseModel):
     IVA: Mapped[str] = mapped_column(String(4), default='21%' ,nullable=False)
 
     # Foreign_Key
-    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), nullable=True)
 
     buyer = relationship('UserModel', back_populates='products')
 

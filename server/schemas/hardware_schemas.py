@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -19,7 +20,7 @@ class UpdateHardwareRequest(BaseModel):
     brand: str | None = None
     distributor: str | None = None
     price: float | None = None
-    user_id: int
+    user_id: int | None = None
 
 class HardwareResponse(BaseModel):
     id: int
@@ -40,7 +41,7 @@ class BuyedHardwareResponse(BaseModel):
     distributor: str
     price: float = 0.0
     IVA: str = '21%'
-    user_id: int
-    buyer: UserResponse
+    user_id: Optional[int] = None
+    buyer: UserResponse = None
     created: datetime = datetime.now()
     updated: datetime = datetime.now()
