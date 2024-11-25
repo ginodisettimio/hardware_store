@@ -37,10 +37,10 @@ class HardwareController:
                 __name__}.get_list()')
             raise InternalServerError(str(ex))
 
-    def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[BuyedHardwareResponse]:
+    def get_buyed_products_list(self, limit: int, offset: int, token: DecodedJwt) -> List[BuyedHardwareResponse]:
         try:
             logger.debug(msg=f'Obtener lista de compras del usuario')
-            return self.service.get_buyed_products_list(limit, offset, user_id)
+            return self.service.get_buyed_products_list(limit, offset, token)
         except BaseHTTPException as ex:
             self.__handler_http_exception(ex)
         except Exception as ex:

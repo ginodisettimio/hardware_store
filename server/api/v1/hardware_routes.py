@@ -64,7 +64,7 @@ async def get_buyed_products_list(
     offset: Annotated[int, Query(ge=0)] = 0,
     token: DecodedJwt = Depends(has_permission(ALL_ROLES)),
 ) -> List[BuyedHardwareResponse]:
-    return controller.get_buyed_products_list(limit, offset, token.user_id)
+    return controller.get_buyed_products_list(limit, offset, token)
 
 
 @router.get(

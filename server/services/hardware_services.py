@@ -1,6 +1,6 @@
 from typing import List
 
-from server.schemas import HardwareResponse, NewHardwareRequest, UpdateHardwareRequest, BuyedHardwareResponse
+from server.schemas import HardwareResponse, NewHardwareRequest, UpdateHardwareRequest, BuyedHardwareResponse, DecodedJwt
 from server.exceptions import NotFound
 from server.repositories import HardwareRepository
 
@@ -20,9 +20,9 @@ class HardwareService:
         product_list = self.repository.get_list(limit, offset)
         return [HardwareResponse(**product) for product in product_list]
 
-    def get_buyed_products_list(self, limit: int, offset: int, user_id: int) -> List[BuyedHardwareResponse]:
+    def get_buyed_products_list(self, limit: int, offset: int, token: DecodedJwt) -> List[BuyedHardwareResponse]:
         product_list = self.repository.get_buyed_products_list(
-            limit, offset, user_id)
+            limit, offset, token)
         return [BuyedHardwareResponse(**product) for product in product_list]
 
     def get_by_id(self, product_id: int) -> BuyedHardwareResponse:
