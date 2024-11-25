@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from server.database import database_connection
 from server.database.models import UserModel
 from server.exceptions import UniqFieldException
+from server.enums import RoleEnum as Role
 
 
 class UsersRepository:
@@ -51,7 +52,7 @@ class UsersRepository:
 
     def delete(self, user_id: int) -> bool:
         user = self.__get_one(user_id)
-        if user is None:
+        if user is None or user.role == Role.SUPER:
             return False
         self.database.delete(user)
         self.database.commit()
