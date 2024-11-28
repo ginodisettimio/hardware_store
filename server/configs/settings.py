@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     JWT_EXPIRATION_TIME_MINUTES: int = 60
 
     # External Data
-    # HARDWARE_API: str
+    HARDWARE_API: str
 
     # Database
     DB_CONNECTION: str
