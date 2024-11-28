@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from server.schemas import LoginUser, RegisterUser, TokenResponse
+from server.schemas import RegisterUser, TokenResponse
 from server.exceptions import InternalServerError, BadRequest
 from server.controllers import AuthController
 

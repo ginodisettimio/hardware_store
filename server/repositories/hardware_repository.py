@@ -34,8 +34,7 @@ class HardwareRepository:
         # last_index = max((db_size - first_index), limit)
         # return self.fake_db[first_index:last_index]
         # #return hardware_api_client.get_all(limit, offset)}
-        products = self.database.query(HardwareModel).order_by(
-            'id').offset(offset).limit(limit).all()
+        products = self.database.query(HardwareModel).order_by('id').offset(offset).limit(limit).all()
         return [product.to_dict() for product in products]
 
     def get_buyed_products_list(self, limit: int, offset: int, token: DecodedJwt) -> List[dict]:
@@ -45,11 +44,9 @@ class HardwareRepository:
         # return self.fake_db[first_index:last_index]
         # #return hardware_api_client.get_all(limit, offset)}
         if token.role in ADMIN_ROLES:
-            products = self.database.query(HardwareModel).order_by(
-                'id').offset(offset).limit(limit).all()
+            products = self.database.query(HardwareModel).order_by('id').offset(offset).limit(limit).all()
         else:
-            products = self.database.query(HardwareModel).order_by(
-                'id').filter_by(user_id=token.user_id).offset(offset).limit(limit).all()
+            products = self.database.query(HardwareModel).order_by('id').filter_by(user_id=token.user_id).offset(offset).limit(limit).all()
         return [product.to_dict() for product in products]
 
     def get_by_id(self, product_id: int) -> dict | None:

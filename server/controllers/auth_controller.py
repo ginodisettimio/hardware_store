@@ -36,8 +36,7 @@ class AuthController():
 
     def __handler_http_exception(self, ex: BaseHTTPException):
         if ex.status_code >= 500:
-            logger.critical(f'Error en el servidor con status code:{
-                            ex.status_code} : {ex.description}')
+            logger.critical(f'Error en el servidor con status code:{ex.status_code} : {ex.description}')
         else:
             logger.error(f'Error {ex.status_code} : {ex.description}')
         raise ex

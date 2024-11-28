@@ -34,11 +34,9 @@ class HardwareService:
         updated_product = self.repository.update(
             product_id, product.model_dump(exclude_none=True))
         if updated_product is None:
-            raise NotFound(f'Producto con id #{
-                           product_id} no se ha encontrado')
+            raise NotFound(f'Producto con id #{product_id} no se ha encontrado')
         return HardwareResponse(**updated_product)
 
     def delete(self, product_id: int) -> None:
         if not self.repository.delete(product_id):
-            raise NotFound(f'Producto con id #{
-                           product_id} no se ha encontrado')
+            raise NotFound(f'Producto con id #{product_id} no se ha encontrado')

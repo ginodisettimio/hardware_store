@@ -22,8 +22,7 @@ class JwtHandler:
 
     def decode(self, token: str) -> dict:
         try:
-            payload = jwt.decode(token, self.secret_key,
-                                 algorithms=[self.algorithm])
+            payload = jwt.decode(token, self.secret_key,algorithms=[self.algorithm])
             return payload
         except jwt.ExpiredSignatureError:
             raise Unauthorized('Token expirado')
