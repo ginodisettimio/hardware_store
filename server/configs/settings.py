@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # API
-    HOST: str = '127.0.0.1'
+    HOST: str = '0.0.0.0'
     PORT: int = 8000
     DEV: bool = False
 

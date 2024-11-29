@@ -24,7 +24,8 @@ hardware.include_router(router_api)
 @hardware.on_event('startup')
 async def startup_event():
     database_connection.connect()
-    print('\033[92m', 'Connected to Database', '\033[0m')
+    if database_connection is True:
+        print('\033[92m', 'Connected to Database', '\033[0m')
 
 
 @hardware.on_event('shutdown')
